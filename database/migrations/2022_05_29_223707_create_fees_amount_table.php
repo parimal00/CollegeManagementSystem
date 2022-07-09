@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOthersAccountTable extends Migration
+class CreateFeesAmountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateOthersAccountTable extends Migration
      */
     public function up()
     {
-        Schema::create('others_account', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('semester');
-            $table->string('fee_info');
+        Schema::create('fees_amount', function (Blueprint $table) {
+            $table->id();
+            $table->integer('fees_info_id');
             $table->integer('amount');
-            $table->timestamps();
+            $table->string('date');
+           // $table->foreign('fees_info_id')->references('id')->on('fee_info');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateOthersAccountTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('others_account');
+        Schema::dropIfExists('fees_amount');
     }
 }
