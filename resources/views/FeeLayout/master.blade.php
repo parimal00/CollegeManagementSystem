@@ -55,6 +55,11 @@
                             </li>
                             <li><a href="{{Route('account_fee.index')}}"><i class="fa fa-edit"></i> Account fee <span class="fa fa-chevron-down"></span></a>
 
+                                <li><a href="library_penalty"><i class="fa fa-edit"></i> Library Penalty<span class="fa fa-chevron-down"></span></a>
+
+
+                                <li><a href="penalty"><i class="fa fa-edit"></i> Add penalty <span class="fa fa-chevron-down"></span></a>
+
 
                         </ul>
                     </div>

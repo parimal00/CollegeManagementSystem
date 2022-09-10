@@ -69,7 +69,7 @@
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>
-                                <li><a href="{{ url('issue_books') }}"><i class="fa fa-bar-chart-o"></i>Return books<span
+                                <li><a href="{{ url('return_book') }}"><i class="fa fa-bar-chart-o"></i>Return books<span
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>

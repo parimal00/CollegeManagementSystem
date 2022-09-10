@@ -8,6 +8,19 @@ use App\student;
 
 class FeeController extends Controller
 {
+    function libraryPenaltyStore(Request $request)
+    {
+        $fee_tye = DB::table('fee_info')->where('fee_type', 'library_penalty')->first();
+        if ($fee_tye != null) {
+            DB::table('fees_amount')
+                ->insert([
+                    'fee_info_id' => $fee_tye->id,
+                    'amount' => $request->lib_penalty_amount
+                ]);
+        }
+        return "library penalty inserted";
+       
+    }
     function login(Request $request)
     {
         $request->validate([

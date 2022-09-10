@@ -107,7 +107,7 @@ class BookController extends Controller
         $book = DB::table('ssid')
             ->where('ssid.ssid', $request->ssid)
             ->join('books', 'books.id', 'ssid.book_id')
-            ->join('edition_info', 'edition_info.edition', 'ssid.edition_id')
+            ->join('edition_info', 'edition_info.id', 'ssid.edition_id')
             ->select(
                 'ssid.id',
                 'ssid.ssid',
@@ -145,10 +145,19 @@ class BookController extends Controller
 
         $roll_no = $request->roll_no_two;
         $ssid = $request->ssid;
-        $existed_book = DB::table('issue_books')
+
+        $book_present = DB::table('ssid')
             ->where('ssid', $ssid)
             ->first();
-        if ($existed_book != null) {
+
+        if ($book_present == null) {
+            return "ssid not valid";
+        }
+        $issued_book = DB::table('issue_books')
+            ->where('ssid', $ssid)
+            ->where('books_return_date', null)
+            ->first();
+        if ($issued_book != null) {
             return 'book is already issued';
         }
         if ($roll_no == null || $ssid == null) {
@@ -185,6 +194,24 @@ class BookController extends Controller
             'bpd' => 'required',
             'quantity' => 'required'
         ]);
+
+        //check ssid 
+
+        $ssids = [];
+        for ($i = $request->ssid; $i <= $request->ssid + $request->quantity; $i++) {
+
+            $ssid_found = DB::table('ssid')
+                ->where('ssid', $i)
+                ->first();
+
+
+            if ($ssid_found != null) {
+                array_push($ssids, $i);
+            }
+        }
+        if (count($ssids) > 0) {
+            return "these ssids are already uploaded " . json_encode($ssids);
+        }
         $book_name = $request->book_name;
         $book_author = $request->book_author;
         $ssid = $request->ssid;
@@ -222,6 +249,13 @@ class BookController extends Controller
     {
         $request->validate(['ssid' => 'required']);
         $ssid = $request->ssid;
+
+        $check_book =  DB::table('issue_books')
+            ->where('ssid', $ssid)
+            ->first();
+        if ($check_book != null) {
+            return "this book is issued ! cannot delete the book";
+        }
         DB::table('ssid')
             ->where('ssid', $ssid)
             ->delete();

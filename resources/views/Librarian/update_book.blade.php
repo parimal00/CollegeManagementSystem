@@ -45,7 +45,8 @@ if(isset($_POST['hey'])&&$_POST['ssid']!=null){
                     <th>ssid </th>
                 </tr>
                 <tr>
-                    <td><input type="text" class="form-control" type="text" name="ssid"
+                    <td>{{ $row->ssid }}</td>
+                    <td><input type="hidden" class="form-control" type="text" name="ssid"
                             value="{{ $row->ssid }}"></td>
                 </tr>
                 <tr>

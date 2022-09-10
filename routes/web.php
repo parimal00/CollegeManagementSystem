@@ -5,7 +5,50 @@ use App\Http\Controllers\HelloController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Test;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
+//register student
+
+Route::get('students', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+
+        'first' => 'required',
+        'last' => 'required',
+        'email' => 'required|email|unique:student_registration,email',
+        'password' => 'required|confirmed',
+        'username'=>'required|unique:student_registration,username',
+        'roll_no' => 'required',
+        'contact_no' => 'required'
+
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('display_error')
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    DB::table('student_registration')
+        ->insert([
+            'firstname' =>  $request->first,
+            'lastname' =>  $request->last,
+            'email' =>  $request->email,
+            'password' =>  bcrypt($request->password),
+            'roll_no' => $request->roll_no,
+            'semester' => 1,
+            'username'=>$request->username,
+            'contact' => $request->contact_no,
+            'status' => 'no',
+            'passed_out' => 0
+
+        ]);
+    return redirect("http://localhost/colz_project_2M/signup/signup.php?signup=success");
+});
+
+Route::view('display_error', 'display_error');
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,10 +61,17 @@ use App\Http\Controllers\Test;
 */
 //stdent
 
-Route::view('my_issued_books',[StudentController::class,'my_issued_books'])->middleware('check_student');
-
-Route::view('student_login','student_login');
-Route::post('student_login',[StudentController::class,'login']);
+Route::get('testdate', function () {
+    Log::notice("jack is sexy");
+});
+Route::get('my_issued_books', [StudentController::class, 'my_issued_books'])->middleware('check_student');
+Route::get('/student/logout', function () {
+    session()->pull('student');
+    session()->flush();
+    return redirect('student_login');
+})->middleware('check_student');
+Route::view('student_login', 'student_login');
+Route::post('student_login', [StudentController::class, 'login']);
 
 //admin 
 Route::group(['middleware' => ['check_admin']], function () {
@@ -44,6 +94,9 @@ Route::group(['middleware' => ['check_admin']], function () {
 
     Route::post('storePenalty', [FeeController::class, 'storePenalty'])->name('penalty.store');
 
+    Route::view('library_penalty', 'library_penalty');
+
+    Route::post('library_penalty', [FeeController::class, 'libraryPenaltyStore'])->name('library_penalty.store');
     Route::get('admin_logout', function () {
         session()->pull('admin');
         session()->flush();
