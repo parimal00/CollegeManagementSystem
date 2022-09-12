@@ -19,7 +19,7 @@ Route::get('students', function (Request $request) {
         'last' => 'required',
         'email' => 'required|email|unique:student_registration,email',
         'password' => 'required|confirmed',
-        'username'=>'required|unique:student_registration,username',
+        'username' => 'required|unique:student_registration,username',
         'roll_no' => 'required',
         'contact_no' => 'required'
 
@@ -39,7 +39,7 @@ Route::get('students', function (Request $request) {
             'password' =>  bcrypt($request->password),
             'roll_no' => $request->roll_no,
             'semester' => 1,
-            'username'=>$request->username,
+            'username' => $request->username,
             'contact' => $request->contact_no,
             'status' => 'no',
             'passed_out' => 0
@@ -94,13 +94,45 @@ Route::group(['middleware' => ['check_admin']], function () {
 
     Route::post('storePenalty', [FeeController::class, 'storePenalty'])->name('penalty.store');
 
-    Route::view('library_penalty', 'library_penalty');
+    Route::get('library_penalty', function () {
+        $current_library_penalty = DB::table('fee_info')
+            ->where('fee_type', 'library_penalty')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->first();
+        return view('library_penalty', compact('current_library_penalty'));
+    });
 
     Route::post('library_penalty', [FeeController::class, 'libraryPenaltyStore'])->name('library_penalty.store');
     Route::get('admin_logout', function () {
         session()->pull('admin');
         session()->flush();
         return redirect('admin_login');
+    });
+
+    Route::get('bus_fee_history',function(){
+        $bus_fee_history = DB::table('fee_info')
+        ->where('fee_type', 'bus_fee')
+        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+        ->orderBy('fee_id', 'desc')
+        ->get();
+        return view('bus_fee_history',compact('bus_fee_history'));
+    });
+    Route::get('semester_fee_history',function(){
+        $semester_fee_history = DB::table('fee_info')
+        ->where('fee_type', 'semester_fee')
+        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+        ->orderBy('fee_id', 'desc')
+        ->get();
+        return view('semester_fee_history',compact('semester_fee_history'));
+    });
+    Route::get('library_penalty_history',function(){
+        $library_penalty_history = DB::table('fee_info')
+        ->where('fee_type', 'library_penalty')
+        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+        ->orderBy('fee_id', 'desc')
+        ->get();
+        return view('library_penalty_history',compact('library_penalty_history'));
     });
 });
 Route::post('admin_login', [FeeController::class, 'login']);

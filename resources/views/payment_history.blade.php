@@ -34,9 +34,7 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
     <table class="table table-bordered">
         <form action="submit_amount" method="post">
             @csrf
-          
             @foreach ($datas as $data)
-            
                 @foreach ($data as $dat)
                     @if ($loop->index == 0)
                         <tr>
@@ -55,8 +53,8 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
                                 </tr>
                             @endforeach
                         @endif
-                        @if($dat==null)
-                        waaaaaa
+                        @if ($dat == null)
+                            waaaaaa
                         @endif
                         @if (count($dat) == 0)
                             @foreach ($dat as $da)

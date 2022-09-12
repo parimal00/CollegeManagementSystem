@@ -19,7 +19,7 @@
 <br>
 
 <div class="col-lg-12 text-center ">
-    <h1 style="font-family:Lucida Console">Library Management System</h1>
+    <h1 style="font-family:Lucida Console">Account Management System</h1>
 </div>
 
 <br>
@@ -32,7 +32,7 @@
     <section class="login_content">
         <form  action="login_accountant" method="POST">
             @csrf;
-            <h1>User Login Form</h1>
+            <h1>Accountant Login Form</h1>
 
             <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required=""/><br>

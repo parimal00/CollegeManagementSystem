@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Scholarship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\student;
@@ -15,11 +16,11 @@ class FeeController extends Controller
             DB::table('fees_amount')
                 ->insert([
                     'fee_info_id' => $fee_tye->id,
-                    'amount' => $request->lib_penalty_amount
+                    'amount' => $request->lib_penalty_amount,
+                    'date'=>date('y-m-d')
                 ]);
         }
         return "library penalty inserted";
-       
     }
     function login(Request $request)
     {
@@ -49,6 +50,15 @@ class FeeController extends Controller
                 'status' => 'yes'
             ]);
 
+        Scholarship::updateOrCreate(
+            [
+                'roll_no' => $roll_no,
+                'scholarship_sem' => 1
+            ],
+            [
+                'scholarship_amount' => 0
+            ]
+        );
         $fee_id = DB::table('fee_info')
             ->where('fee_type', 'semester_fee')
             ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
@@ -124,12 +134,23 @@ class FeeController extends Controller
     }
     function bus_fee_index()
     {
-        return view('busfee');
+        $current_bus_fee = DB::table('fee_info')
+            ->where('fee_type', 'bus_fee')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->first();
+
+        return view('busfee', compact('current_bus_fee'));
     }
 
     function account_fee_index()
     {
-        return view('account_fee');
+        $current_semester_fee = DB::table('fee_info')
+            ->where('fee_type', 'semester_fee')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->first();
+        return view('account_fee', compact('current_semester_fee'));
     }
     function account_fee_store(Request $request)
     {
@@ -138,7 +159,8 @@ class FeeController extends Controller
             DB::table('fees_amount')
                 ->insert([
                     'fee_info_id' => $fee_tye->id,
-                    'amount' => $request->amount
+                    'amount' => $request->amount,
+                    'date' => date('y-m-d')
                 ]);
         }
         return "fee inserted";
@@ -151,7 +173,8 @@ class FeeController extends Controller
             DB::table('fees_amount')
                 ->insert([
                     'fee_info_id' => $fee_tye->id,
-                    'amount' => $request->amount
+                    'amount' => $request->amount,
+                    'date' => date('y-m-d')
                 ]);
         }
         return "fee inserted";

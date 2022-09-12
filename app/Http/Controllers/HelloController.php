@@ -160,6 +160,7 @@ class Hellocontroller extends Controller
           'date' => date("Y-m-d")
         ]);
 
+
       DB::table('scholarships')
         ->where('roll_no', $student->roll_no)
         ->insert([
@@ -602,7 +603,7 @@ class Hellocontroller extends Controller
       ->where('scholarship_sem', $semester)
       ->get();
 
-    if (count($scholarship_student) == 0) {
+    if ($scholarship_student[0]->scholarship_amount > 0) {
       echo "scholarship already added";
       //echo $scholarship::where('roll_no',$roll_no)->first();
     } else {
@@ -614,11 +615,17 @@ class Hellocontroller extends Controller
       }
       DB::table('scholarships')
         ->where('scholarship_sem', $semester)
+        ->where('roll_no', $roll_no)
         ->update([
           'roll_no' => $roll_no,
           'scholarship_amount' => $scholarship_amount,
           'scholarship_sem' => $semester
         ]);
+      // ->insert([
+      //   'roll_no' => $roll_no,
+      //   'scholarship_amount' => $scholarship_amount,
+      //   'scholarship_sem' => $semester
+      // ]);
 
 
 
@@ -667,7 +674,9 @@ class Hellocontroller extends Controller
 
     //if($roll_no!=null){
     $Student = new student;
-    $data = $Student::where('roll_no', $roll_no)->get();
+    $data = $Student::where('roll_no', $roll_no)
+      ->where('status', 'yes')
+      ->get();
     return view('plain_page')->with(['datas' => $data]);
     //}
     //else
@@ -691,7 +700,9 @@ class Hellocontroller extends Controller
 
     // if($roll_no!=null){
     $Student = new student;
-    $data = $Student::where('roll_no', $roll_no)->get();
+    $data = $Student::where('roll_no', $roll_no)
+      ->where('status', 'yes')
+      ->get();
 
     $bus_fee = DB::table('fee_info')
       ->where('fee_type', 'bus_fee')
