@@ -17,10 +17,10 @@ class FeeController extends Controller
                 ->insert([
                     'fee_info_id' => $fee_tye->id,
                     'amount' => $request->lib_penalty_amount,
-                    'date'=>date('y-m-d')
+                    'date' => date('y-m-d')
                 ]);
         }
-        return "library penalty inserted";
+        return back()->with('success', 'Library Penalty added succesfully');
     }
     function login(Request $request)
     {
@@ -82,7 +82,7 @@ class FeeController extends Controller
                     'date' => date('d-m-y')
                 ]);
         }
-
+        return back()->with('success', 'Student approved');
         return "student approved";
     }
     function allStudent()
@@ -125,7 +125,11 @@ class FeeController extends Controller
 
         //if($roll_no!=null){
         $Student = new student;
-        $data = $Student::where('roll_no', $roll_no)->get();
+        $data = $Student::where('roll_no', $roll_no)
+            ->where('status', 'yes')
+            ->get();
+
+       // return back()->with(['datas' => $data]);
         return view('Penalty')->with(['datas' => $data]);
         //}
         //else
@@ -163,7 +167,7 @@ class FeeController extends Controller
                     'date' => date('y-m-d')
                 ]);
         }
-        return "fee inserted";
+        return back()->with('success', 'Semester Fee Allocated Successfully');
     }
 
     function bus_fee_store(Request $request)
@@ -177,6 +181,6 @@ class FeeController extends Controller
                     'date' => date('y-m-d')
                 ]);
         }
-        return "fee inserted";
+        return back()->with('success', 'Bus Fee Allocated Successfully');
     }
 }

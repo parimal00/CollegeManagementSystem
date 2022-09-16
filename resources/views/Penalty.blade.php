@@ -1,5 +1,6 @@
 @extends('FeeLayout/master')
 
+
 @section('body')
     <form class="" action="{{ route('find_student_for_penalty') }}" method="post">
         @csrf
@@ -23,6 +24,11 @@
 
 if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
 ?>
+    @if (count($datas) == 0)
+        <script>
+            toastr.error('Student Not found')
+        </script>
+    @endif
     @foreach ($datas as $row)
         {{ $row['lastname'] }}
         <table class="table table-bordered">

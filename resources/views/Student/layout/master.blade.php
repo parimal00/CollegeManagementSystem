@@ -15,6 +15,12 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet"type="text/css">
     <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet"type="text/css">
     <link href="{{ asset('css/custom.min.css') }}" rel="stylesheet"type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 
 <body class="nav-md">
@@ -53,7 +59,7 @@
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>
-                            
+
 
                             </ul>
                         </div>
@@ -80,7 +86,8 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="{{ url('student/logout') }}"><i class="fa fa-sign-out pull-right"></i> Log
+                                    <li><a href="{{ url('student/logout') }}"><i class="fa fa-sign-out pull-right"></i>
+                                            Log
                                             Out</a></li>
                                 </ul>
                             </li>

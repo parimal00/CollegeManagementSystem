@@ -69,8 +69,8 @@
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>
-                                <li><a href="{{ url('return_book') }}"><i class="fa fa-bar-chart-o"></i>Return books<span
-                                            class="fa fa-chevron-down"></span></a>
+                                <li><a href="{{ url('return_book') }}"><i class="fa fa-bar-chart-o"></i>Return
+                                        books<span class="fa fa-chevron-down"></span></a>
 
                                 </li>
 
@@ -100,7 +100,8 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="{{ url('librarian/logout') }}"><i class="fa fa-sign-out pull-right"></i> Log
+                                    <li><a href="{{ url('librarian/logout') }}"><i
+                                                class="fa fa-sign-out pull-right"></i> Log
                                             Out</a></li>
                                 </ul>
                             </li>
@@ -153,6 +154,11 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
+                                    @if (true)
+                                        <script>
+                                            toastr.success('jacki')
+                                        </script>
+                                    @endif
                                     @yield('body')
                                 </div>
                             </div>

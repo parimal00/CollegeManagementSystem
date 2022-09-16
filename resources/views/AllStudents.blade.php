@@ -1,6 +1,11 @@
 @extends('FeeLayout/master')
 
 @section('body')
+    @if (Session::has('success'))
+        <script>
+            toastr.info('{{ session('success') }}')
+        </script>
+    @endif
     <form class="" action="{{ route('roll_no') }}" method="post">
         @csrf
         <table class="table">
@@ -28,7 +33,7 @@
                     <th>{{ $student->semester }}</th>
 
                     <th>{{ $student->status }}</th>
-                    <th> <a href="/approve/{{$student->roll_no}}"> Approve</a></th>
+                    <th> <a href="/approve/{{ $student->roll_no }}"> Approve</a></th>
 
                 </tr>
             @endforeach

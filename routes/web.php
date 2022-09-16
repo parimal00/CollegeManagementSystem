@@ -45,7 +45,7 @@ Route::get('students', function (Request $request) {
             'passed_out' => 0
 
         ]);
-    return redirect("http://localhost/colz_project_2M/signup/signup.php?signup=success");
+    return redirect("/student_login");
 });
 
 Route::view('display_error', 'display_error');
@@ -70,7 +70,9 @@ Route::get('/student/logout', function () {
     session()->flush();
     return redirect('student_login');
 })->middleware('check_student');
-Route::view('student_login', 'student_login');
+Route::get('student_login', function () {
+    return view('student_login');
+});
 Route::post('student_login', [StudentController::class, 'login']);
 
 //admin 
@@ -110,29 +112,29 @@ Route::group(['middleware' => ['check_admin']], function () {
         return redirect('admin_login');
     });
 
-    Route::get('bus_fee_history',function(){
+    Route::get('bus_fee_history', function () {
         $bus_fee_history = DB::table('fee_info')
-        ->where('fee_type', 'bus_fee')
-        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
-        ->orderBy('fee_id', 'desc')
-        ->get();
-        return view('bus_fee_history',compact('bus_fee_history'));
+            ->where('fee_type', 'bus_fee')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->get();
+        return view('bus_fee_history', compact('bus_fee_history'));
     });
-    Route::get('semester_fee_history',function(){
+    Route::get('semester_fee_history', function () {
         $semester_fee_history = DB::table('fee_info')
-        ->where('fee_type', 'semester_fee')
-        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
-        ->orderBy('fee_id', 'desc')
-        ->get();
-        return view('semester_fee_history',compact('semester_fee_history'));
+            ->where('fee_type', 'semester_fee')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->get();
+        return view('semester_fee_history', compact('semester_fee_history'));
     });
-    Route::get('library_penalty_history',function(){
+    Route::get('library_penalty_history', function () {
         $library_penalty_history = DB::table('fee_info')
-        ->where('fee_type', 'library_penalty')
-        ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
-        ->orderBy('fee_id', 'desc')
-        ->get();
-        return view('library_penalty_history',compact('library_penalty_history'));
+            ->where('fee_type', 'library_penalty')
+            ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+            ->orderBy('fee_id', 'desc')
+            ->get();
+        return view('library_penalty_history', compact('library_penalty_history'));
     });
 });
 Route::post('admin_login', [FeeController::class, 'login']);
@@ -211,6 +213,8 @@ Route::post('submit', 'HelloController@scholarship_add');
 
 Route::post('lol', 'HelloController@getData')->name('roll_no');
 
+Route::put('scholarships', [HelloController::class, 'updateScholarship'])->name('scholarship.update');
+
 ////////////////////////////////////////////////////////////
 ///// Add bus fee in database and update the bus fee
 
@@ -220,13 +224,16 @@ Route::post('bus_manage', 'HelloController@getData_bus')->name('roll_no_bus');
 
 Route::get('bus_manage', function () {
     if (session()->has('accountant')) {
-
-
         return view('add_account');
     } else {
         return view('accountantlogin');
     }
 });
+Route::get('delete_bus_fee', function () {
+    return view('delete_bus_fee');
+});
+Route::delete('busAccount', [HelloController::class, 'deleteBusFee']);
+Route::post('busAccount', [HelloController::class, 'findBusStudent'])->name('deleteBus.index');
 
 Route::post('submit_bus_fee_info', 'HelloController@busfee_add');
 

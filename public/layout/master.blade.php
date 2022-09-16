@@ -14,6 +14,10 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet"type="text/css">
     <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet"type="text/css">
     <link href="{{ asset('css/custom.min.css') }}" rel="stylesheet"type="text/css">
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 
 <body class="nav-md">

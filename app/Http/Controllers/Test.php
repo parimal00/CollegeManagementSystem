@@ -31,7 +31,7 @@ class Test extends Controller
         return view('plain_page');
      }
      else{
-       echo "login failed";
+       return back()->with('failure','Login failed');
      }
 
     }

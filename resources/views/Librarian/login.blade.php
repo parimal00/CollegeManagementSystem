@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -27,53 +27,54 @@
 <body class="login">
 
 
-<div class="login_wrapper">
+    <div class="login_wrapper">
 
-    <section class="login_content">
-        <form  action="librarian_login" method="POST">
-            @csrf;
-            <h1>User Login Form</h1>
+        <section class="login_content">
+            <form action="librarian_login" method="POST">
+                @csrf;
+                <h1>Librarian Login Form</h1>
 
-            <div>
-                <input type="text" name="email" class="form-control" placeholder="email" required=""/><br>
-            </div>
-            <div>
-                <input type="password" name="password" class="form-control" placeholder="Password" required=""/>
-            </div>
-            <div>
+                <div>
+                    <input type="text" name="email" class="form-control" placeholder="email" required="" /><br>
+                </div>
+                <div>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required="" />
+                </div>
+                <div>
 
-                <input class="btn btn-default submit" type="submit" name="submit1" value="Login">
-                <a class="reset_pass" href="#">Lost your password?</a>
-            </div>
-
-          
+                    <input class="btn btn-default submit" type="submit" name="submit1" value="Login">
+                    <a class="reset_pass" href="#">Lost your password?</a>
+                </div>
 
 
 
 
-            
-            <div class="clearfix"></div>
 
-            <div class="separator">
-                <p class="change_link">New to site?
-                    <a href="registration.html"> Create Account </a>
-                </p>
+
 
                 <div class="clearfix"></div>
-                <br/>
+
+                <div class="separator">
+                    <p class="change_link">New to site?
+                        <a href="registration.html"> Create Account </a>
+                    </p>
+
+                    <div class="clearfix"></div>
+                    <br />
 
 
-            </div>
-        </form>
-    </section>
+                </div>
+            </form>
+        </section>
 
 
-</div>
+    </div>
 
-<div class="alert alert-danger col-lg-6 col-lg-push-3">
-    <strong style="color:white">Invalid</strong> Username Or Password.
-</div>
+    <div class="alert alert-danger col-lg-6 col-lg-push-3">
+        <strong style="color:white">Invalid</strong> Username Or Password.
+    </div>
 
 
 </body>
+
 </html>

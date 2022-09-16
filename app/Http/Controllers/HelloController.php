@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 use App\student;
 use App\scholarship;
 use App\bus_account;
+use App\Scholarship as AppScholarship;
 use App\student_info;
 use App\students_with_due_balance;
 use Illuminate\Http\Request;
@@ -140,6 +141,7 @@ class Hellocontroller extends Controller
 
 
     $student_info = DB::table('student_registration')
+      ->where('status', 'yes')
       ->get();
 
     foreach ($student_info as $student) {
@@ -177,14 +179,80 @@ class Hellocontroller extends Controller
           ]);
       }
     }
+    return back()->with('success', 'update successful');
   }
 
 
 
 
 
+  public function deleteBusFee(Request $request)
+  {
+    //  dd($request);
 
 
+    $roll_no = $request->roll_no;
+    $semester =  student::where('roll_no', $roll_no)->first()->semester;
+    $fee_id = $request->fee_id;
+
+
+    DB::table('student_account')
+      ->where('roll_no', $roll_no)
+      ->where('semester', $semester)
+      ->where('fee_id', $fee_id)
+      ->delete();
+
+    return redirect('delete_bus_fee')->with('success', 'Bus fee deleted');
+  }
+
+  public function findBusStudent(Request $request)
+  {
+    if (!session()->has('accountant')) {
+      return view('accountantlogin');
+    }
+
+    $fee_id = DB::table('fee_info')
+      ->where('fee_type', 'bus_fee')
+      ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+      ->select('fees_amount.fee_id')
+      ->orderBy('fee_id', 'desc')
+      ->first()->fee_id;
+
+    $semester = student::where('roll_no', $request->roll_no)->first()->semester;
+    if (
+      DB::table('student_account')
+      ->where('roll_no', $request->roll_no)
+      ->where('semester', $semester)
+      ->where('fee_id', $fee_id)
+      ->first() == null
+    ) {
+      return redirect('delete_bus_fee')->with('failure', 'No bus fee allocated');
+    }
+
+    $validate = $request->validate(['roll_no' => 'required']);
+
+    $roll_no = $request->roll_no;
+
+
+    // if($roll_no!=null){
+    $Student = new student;
+    $data = $Student::where('roll_no', $roll_no)
+      ->where('status', 'yes')
+      ->get();
+
+    $bus_fee = DB::table('fee_info')
+      ->where('fee_type', 'bus_fee')
+      ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+      ->orderBy('date', 'DESC')
+      ->get();
+
+    $bus_fee = (json_decode($bus_fee));
+
+    $latest_bus_fee = $bus_fee[0]->amount;
+    $fee_id = $bus_fee[0]->fee_id;
+
+    return view('delete_bus_fee')->with(['datas' => $data, 'bus_fee' => $latest_bus_fee, 'fee_id' => $fee_id]);
+  }
 
 
   public function update(Request $request)
@@ -305,7 +373,6 @@ class Hellocontroller extends Controller
 
   public function getInfo_amount(Request $request)
   {
-
 
     if (!session()->has('accountant')) {
 
@@ -531,7 +598,8 @@ class Hellocontroller extends Controller
       ->get();
 
     if (count($bus_account) > 0) {
-      return "bus fee already added";
+      return back()->with('failure', 'bus fee is already added for this semester');
+      // return "bus fee already added";
     }
 
     DB::table('student_account')
@@ -543,7 +611,7 @@ class Hellocontroller extends Controller
         'date' => $date
       ]);
 
-
+    return back()->with('success', 'fee submited successfully');
     $data = "<script>alert('data submitted successfully');</script>";
 
 
@@ -604,7 +672,7 @@ class Hellocontroller extends Controller
       ->get();
 
     if ($scholarship_student[0]->scholarship_amount > 0) {
-      echo "scholarship already added";
+      return back()->with('failure', 'Scholarship already added');
       //echo $scholarship::where('roll_no',$roll_no)->first();
     } else {
       $student_info = new student_info;
@@ -636,9 +704,10 @@ class Hellocontroller extends Controller
       // $student_info::where('roll_no',$roll_no)
       // ->update(['total_fee'=>$total_fee-$scholarship_amount]);
 
-      $script = "<script>alert('scholarship submitted successfully');</script>";
-      echo $script;
-      return view('plain_page');
+      return back()->with('success', 'scholarship submitted sucessfully');
+      // $script = "<script>alert('scholarship submitted successfully');</script>";
+      // echo $script;
+      // return view('plain_page');
     }
   }
 
@@ -677,13 +746,85 @@ class Hellocontroller extends Controller
     $data = $Student::where('roll_no', $roll_no)
       ->where('status', 'yes')
       ->get();
-    return view('plain_page')->with(['datas' => $data]);
+
+    $semester = null;
+
+    if (count($data) > 0) {
+      $scholarship = scholarship::where('scholarship_sem', $data[0]->semester)
+        ->where('roll_no', $data[0]->roll_no)
+        ->first();
+    }
+    return view('plain_page')->with(['datas' => $data, 'scholarship' => $scholarship]);
     //}
     //else
     //return view('plain_page');
 
 
 
+  }
+
+  public function updateScholarship(Request $request)
+  {
+    $scholarship = new scholarship;
+
+    $request->validate([
+      'percentage' => 'required',
+    ]);
+
+    $roll_no = $request->roll_no;
+    $student = DB::table('student_registration')
+      ->where('roll_no', $roll_no)
+      ->get();
+
+
+    DB::table('scholarships')
+      ->where('roll_no', $roll_no)
+      ->where('scholarship_sem', $student[0]->semester)
+      ->update([
+        'scholarship_amount' => $request->percentage
+      ]);
+
+
+
+    return back()->with('success', 'scholarship updated sucessfully');
+  }
+  public function getStudentBusInfo(Request $request)
+  {
+    if (!session()->has('accountant')) {
+
+
+      return view('accountantlogin');
+    }
+
+    $validate = $request->validate(['roll_no' => 'required']);
+
+    $roll_no = $request->roll_no;
+
+
+    // if($roll_no!=null){
+    $Student = new student;
+    $data = $Student::where('roll_no', $roll_no)
+      ->where('status', 'yes')
+      ->get();
+
+    $bus_fee = DB::table('fee_info')
+      ->where('fee_type', 'bus_fee')
+      ->join('fees_amount', 'fees_amount.fee_info_id', 'fee_info.id')
+      ->orderBy('date', 'DESC')
+      ->get();
+
+
+    $bus_fee = (json_decode($bus_fee));
+
+    $latest_bus_fee = $bus_fee[0]->amount;
+    $fee_id = $bus_fee[0]->fee_id;
+
+
+
+
+
+
+    return view('delete_bus_fee')->with(['datas' => $data, 'bus_fee' => $latest_bus_fee, 'fee_id' => $fee_id]);
   }
   public function getData_bus(Request $request)
   {

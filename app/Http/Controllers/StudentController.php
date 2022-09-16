@@ -39,15 +39,15 @@ class StudentController extends Controller
 
 
         if ($student == null) {
-            return "username or password incorrect";
+            return redirect('/student_login')->with('error', 'Username or password is incorrect');
         }
 
         if (!Hash::check($request->password, $student->password)) {
-            return "username or password incorrect";
+            return redirect('/student_login')->with('error', 'Incorrect Password');
         }
 
         if ($student->status == 'no') {
-            return "login after admin approve your account";
+            return redirect('/student_login')->with('message', 'You can only login once admin approve your account');
         }
 
 
