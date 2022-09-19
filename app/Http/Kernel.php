@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
         'test' => \App\Http\Middleware\test::class,
         'librarian' => \App\Http\Middleware\LibrarianLogin::class,
         'check_student'=>\App\Http\Middleware\CheckStudent::class,
+        'check_accountant'=>\App\Http\Middleware\CheckAccountant::class,
+
     ];
 
     /**

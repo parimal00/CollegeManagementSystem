@@ -191,8 +191,9 @@ class BookController extends Controller
             'ssid' => 'required',
             'edition' => 'required',
             'price' => 'required',
-            'bpd' => 'required',
-            'quantity' => 'required'
+            'bpd' => 'required|date',
+            'quantity' => 'required',
+           
         ]);
 
         //check ssid 

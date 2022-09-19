@@ -1,9 +1,9 @@
-@extends('layout/master')
+@extends('Student/layout/master')
 
 @section('body')
    
 
-    <form class="" action="{{ route('roll_no_payment_history') }}" method="post">
+    {{-- <form class="" action="{{ route('roll_no_payment_history') }}" method="post">
         @csrf
         <table class="table">
 
@@ -15,14 +15,13 @@
                 <td><input type="submit" name="hey"></td>
             </tr>
 
-    </form>
+    </form> --}}
 
     </table>
 
-    <?php
+  
 
-if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
-?>
+
 
 
 
@@ -39,8 +38,12 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
                             <th>amount</th>
                             <th>date of payment</th>
                         </tr>
+                    
+
                         @if ($dat != null)
+
                             @foreach ($dat as $da)
+                          
                                 <tr>
                                     <td>{{ $da->roll_no }}</td>
                                     <td>{{ $da->semester }}</td>
@@ -48,8 +51,13 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
                                     <td>{{ $da->date_of_payment }}</td>
                                 </tr>
                             @endforeach
-                        @endif
-                        @if ($dat == null)
+                        @else
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
                         @endif
                         @if (count($dat) == 0)
                             @foreach ($dat as $da)
@@ -68,7 +76,7 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
                             <th>semester</th>
                             <th>amount</th>
                             <th>fee type</th>
-                            <th>date</th>
+                           
                         </tr>
 
                         @foreach ($dat as $da)
@@ -97,11 +105,5 @@ if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
         </form>
     </table>
 
-    @foreach ($scholarship as $s)
-        {{ $s->scholarship_amount }}
-    @endforeach
 
-    <?php
-}
-?>
 @endsection

@@ -36,7 +36,7 @@
                         <div class="profile_info">
                             <span>Welcome,</span>
 
-                            <h2>John Doe</h2>
+                            <h2>{{ session('librarian') }}</h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -61,8 +61,12 @@
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>
-                                <li><a href="{{ url('get_amount') }}"><i class="fa fa-table"></i> Get Amount <span
+                                {{-- <li><a href="{{ url('get_amount') }}"><i class="fa fa-table"></i> Get Amount <span
                                             class="fa fa-chevron-down"></span></a>
+
+                                </li> --}}
+                                <li><a href="{{ url('get_lib_penalty_amount') }}"><i class="fa fa-bar-chart-o"></i>Get
+                                        Library Penalty Amount<span class="fa fa-chevron-down"></span></a>
 
                                 </li>
                                 <li><a href="{{ url('update_book') }}"><i class="fa fa-bar-chart-o"></i>Update book<span
@@ -106,14 +110,14 @@
                                 </ul>
                             </li>
 
-                            <li role="presentation" class="dropdown">
+                            {{-- <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="badge bg-green">6</span>
                                 </a>
 
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -124,21 +128,21 @@
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Plain Page</h3>
+                            <h3>Library Management</h3>
                         </div>
 
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                                 <div class="input-group">
 
-                                    <form action="{{ route('search') }}" method="post">
+                                    {{-- <form action="{{ route('search') }}" method="post">
                                         @csrf
                                         <input type="text" class="form-control" name="roll_no"
                                             placeholder="Search for...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default">Go!</button>
                                         </span>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </div>
                         </div>
@@ -149,7 +153,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>Plain Page</h2>
+                                    <h2>Library management</h2>
 
                                     <div class="clearfix"></div>
                                 </div>

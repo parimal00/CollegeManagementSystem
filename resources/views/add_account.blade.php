@@ -11,7 +11,7 @@
         <table class="table">
 
             <tr>
-                add_account blade
+               
                 <td><input type="text" class="form-control" placeholder="Enter roll no" name="roll_no"></td>
 
             </tr>
@@ -26,7 +26,7 @@
 if(isset($_POST['hey'])&&$_POST['roll_no']!=null){
 ?>
     @foreach ($datas as $row)
-        {{ $row['lastname'] }}
+        
         <table class="table table-bordered">
             <form action="submit_bus_fee_info" method="post">
                 @csrf

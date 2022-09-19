@@ -41,7 +41,7 @@
                         <div class="profile_info">
                             <span>Welcome,</span>
 
-                            <h2>John Doe</h2>
+                            <h2>{{session('accountant')}}</h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -82,8 +82,7 @@
                                         History<span class="fa fa-chevron-down"></span></a>
 
                                 </li>
-                                <li><a href="{{ url('update') }}"><i class="fa fa-bar-chart-o"></i>Update all the
-                                        information<span class="fa fa-chevron-down"></span></a>
+                                <li><a href="{{ url('update') }}"><i class="fa fa-bar-chart-o"></i>Upgrade Students<span class="fa fa-chevron-down"></span></a>
 
                                 </li>
 
@@ -117,14 +116,14 @@
                                 </ul>
                             </li>
 
-                            <li role="presentation" class="dropdown">
+                            {{-- <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="badge bg-green">6</span>
                                 </a>
 
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -135,21 +134,21 @@
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Plain Page</h3>
+                            <h3>Accountant Management</h3>
                         </div>
 
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                                 <div class="input-group">
 
-                                    <form action="{{ route('search') }}" method="post">
+                                    {{-- <form action="{{ route('search') }}" method="post">
                                         @csrf
                                         <input type="text" class="form-control" name="roll_no"
                                             placeholder="Search for...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default">Go!</button>
                                         </span>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </div>
                         </div>
@@ -160,7 +159,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>Plain Page</h2>
+                                    <h2>Accountant management</h2>
 
                                     <div class="clearfix"></div>
                                 </div>

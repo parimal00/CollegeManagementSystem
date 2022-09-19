@@ -6,7 +6,7 @@
     <form class="" action="{{ route('roll_no') }}" method="post">
         @csrf
         <table class="table">
-            plain_page blade
+          
             <tr>
                 <td><input type="text" class="form-control" placeholder="Enter roll no" name="roll_no"></td>
             </tr>

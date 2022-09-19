@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Plain Page | LMS </title>
+    <title>Student Page| LMS </title>
 
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -42,7 +42,7 @@
                         <div class="profile_info">
                             <span>Welcome,</span>
 
-                            <h2>John Doe</h2>
+                            <h2>{{ session('student') }}</h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -55,11 +55,14 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a href=""><i class="fa fa-home"></i>My issued books <span
+                                <li><a href="my_issued_books"><i class="fa fa-home"></i>My issued books <span
                                             class="fa fa-chevron-down"></span></a>
 
                                 </li>
+                                <li><a href="my_payment_history"><i class="fa fa-home"></i>My Account History <span
+                                            class="fa fa-chevron-down"></span></a>
 
+                                </li>
 
                             </ul>
                         </div>
@@ -110,21 +113,14 @@
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Plain Page</h3>
+                            <h3>Student Page</h3>
                         </div>
 
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                                 <div class="input-group">
 
-                                    <form action="{{ route('search') }}" method="post">
-                                        @csrf
-                                        <input type="text" class="form-control" name="roll_no"
-                                            placeholder="Search for...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default">Go!</button>
-                                        </span>
-                                    </form>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -135,7 +131,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <h2>Plain Page</h2>
+                                    <h2>Student Page</h2>
 
                                     <div class="clearfix"></div>
                                 </div>

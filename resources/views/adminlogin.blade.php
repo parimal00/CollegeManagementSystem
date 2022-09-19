@@ -31,7 +31,7 @@
 
     <section class="login_content">
         <form  action="admin_login" method="POST">
-            @csrf;
+            @csrf
             <h1>Admin Login Form</h1>
 
             <div>

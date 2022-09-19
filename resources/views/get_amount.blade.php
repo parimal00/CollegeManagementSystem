@@ -2,9 +2,7 @@
 
 @section('body')
 
-    get_amount_blade
-    get_amount function, submit_amount function
-    calculation of fees from others tables is not included (getInfo_amount)
+   
 
     <form class="" action="{{ route('roll_get_amount') }}" method="post">
         @csrf
@@ -46,12 +44,12 @@ if(isset($_POST['hey'])&&$_POST['bname']!=null){
 
                         <td>{{ $data['total'] - $data['ts_total'] - $data['total_previous_payment'] }}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>dues from {{ $data['semester'] }} semester</td>
                     </tr>
                     <tr>
                         <td>{{ $data['ts_total'] - $data['ts_payment'] }}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <th>Total dues</td>
                     </tr>

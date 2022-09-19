@@ -53,9 +53,10 @@ class Hellocontroller extends Controller
       $array = [];
     }
 
+    $scholarship = scholarship::where('roll_no', $roll_no)
+      ->get();
 
-
-    return view('payment_history')->with(['datas' => $data]);;
+    return view('payment_history')->with(['datas' => $data, 'scholarship' => $scholarship]);
   }
   function payment_history()
   {
@@ -368,7 +369,7 @@ class Hellocontroller extends Controller
         "date_of_payment" => date('d-m-y h:i:s')
       ]);
 
-    return "payment done successfully";
+    return redirect('get_amount')->with('success', 'Payment done successfully');
   }
 
   public function getInfo_amount(Request $request)
